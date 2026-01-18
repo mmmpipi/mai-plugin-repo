@@ -430,5 +430,9 @@
   {
     "id": "dglab_coyote_plugin",
     "repositoryUrl": "https://github.com/exynos967/dglab_coyote_plugin"
+  },
+  {
+    "id": "mmmpipi.MaiBot-At-Plugin",
+    "repositoryUrl": "https://github.com/mmmpipi/MaiBot-At-Plugin"
   }
 ]
