@@ -4622,7 +4622,7 @@
     "manifest": {
       "manifest_version": 1,
       "name": "Mai Forever Memories",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "description": "将你与麦麦日常生活中的一点一滴保存为永恒的记忆，记录到LPMM中",
       "author": {
         "name": "ARC",
@@ -5830,6 +5830,46 @@
       },
       "changelog": {
         "1.7.0": [
+          "Added feature toggle configuration section [features] to config file",
+          "All major plugin features can now be individually enabled/disabled via config",
+          "Added startup_enabled toggle for startup handler",
+          "Added stop_enabled toggle for stop handler",
+          "Added state_update_enabled toggle for state update handler",
+          "Added message_event_enabled toggle for message event handler",
+          "Added social_network_enabled toggle for social network feature",
+          "Added sleep_system_enabled toggle for sleep system",
+          "Added activity_execution_enabled toggle for activity execution feature",
+          "Added event_handling_enabled toggle for random event handling feature",
+          "Added commands_enabled toggle for command feature",
+          "Added tools_enabled toggle for tool feature",
+          "Enhanced get_life_simulation_status tool to display date information",
+          "Now shows yesterday, today, tomorrow, and day after tomorrow dates",
+          "Date display format: '昨天 | 1月17日 星期六'",
+          "Improved time display clarity and user experience"
+        ],
+        "1.6.0": [
+          "Fixed tool parameter format for GetSocialNetworkTool and SetRelationshipTool",
+          "Changed parameters from dictionary format to tuple format to comply with BaseTool requirements",
+          "Tools now properly pass parameter validation and can be called by LLM",
+          "Registered SocialNetworkEventHandler for automatic social network interaction tracking",
+          "Registered SocialNetworkCommand for manual social network queries (/life_social)",
+          "Registered MessageSleepEventHandler for sleep state management and message blocking",
+          "Updated _manifest.json to include all 16 components (6 event handlers, 2 actions, 5 tools, 3 commands)",
+          "Social network system now fully functional with automatic interaction recording",
+          "Plugin now fully compliant with MaiBot standard plugin format",
+          "Implemented complete sleep system with 6 sleep states (awake, sleepy, falling_asleep, light_sleep, deep_sleep, waking_up)",
+          "Sleep state automatically transitions based on time and conditions",
+          "Sleep system integrates with schedule: automatically enters sleep when current activity is sleep type",
+          "Sleep system integrates with schedule: automatically wakes up when activity changes from sleep",
+          "AI-driven auto-reply during sleep: AI judges whether to reply and what to say based on sleep state, message content, and relationship",
+          "Disturbance wake-up mechanism: can be woken up by frequent messages, important messages, or urgent keywords",
+          "Light sleep has higher wake-up probability, deep sleep has lower wake-up probability",
+          "Fatigue gradually recovers during sleep (0.5-1 per minute)",
+          "Health gradually recovers during sleep (0.1-0.2 per minute)",
+          "Configurable sleep duration limits (minimum 4 hours, maximum 10 hours)",
+          "Configurable auto-reply message during sleep",
+          "Supports manual wake-up functionality",
+          "Added sleep_reply_judgment AI prompt for judging whether to reply during sleep",
           "Removed AI-driven auto-reply during sleep system",
           "Removed sleep_reply_judgment AI prompt",
           "Simplified sleep reply to use fixed message from config file",
@@ -5858,30 +5898,6 @@
           "Added time information to GetScheduleTool: now returns current activity time and current time (HH:MM and date) in the response, allowing the main reply system to know the current time and provide more contextual responses",
           "Enhanced get_life_simulation_status tool: now retrieves detailed activity description from schedule array instead of using brief current_activity_description field, and adds current activity time and current time (HH:MM and date) to status output, providing more comprehensive and detailed status information for AI to understand current context",
           "Fixed social network interaction recording: SocialNetworkEventHandler now only records interactions and judges intimacy when the message is directed to bot (private messages, or group messages where bot is mentioned or @ed), preventing inappropriate intimacy increases for messages not directed to bot"
-        ],
-        "1.6.0": [
-          "Fixed tool parameter format for GetSocialNetworkTool and SetRelationshipTool",
-          "Changed parameters from dictionary format to tuple format to comply with BaseTool requirements",
-          "Tools now properly pass parameter validation and can be called by LLM",
-          "Registered SocialNetworkEventHandler for automatic social network interaction tracking",
-          "Registered SocialNetworkCommand for manual social network queries (/life_social)",
-          "Registered MessageSleepEventHandler for sleep state management and message blocking",
-          "Updated _manifest.json to include all 16 components (6 event handlers, 2 actions, 5 tools, 3 commands)",
-          "Social network system now fully functional with automatic interaction recording",
-          "Plugin now fully compliant with MaiBot standard plugin format",
-          "Implemented complete sleep system with 6 sleep states (awake, sleepy, falling_asleep, light_sleep, deep_sleep, waking_up)",
-          "Sleep state automatically transitions based on time and conditions",
-          "Sleep system integrates with schedule: automatically enters sleep when current activity is sleep type",
-          "Sleep system integrates with schedule: automatically wakes up when activity changes from sleep",
-          "AI-driven auto-reply during sleep: AI judges whether to reply and what to say based on sleep state, message content, and relationship",
-          "Disturbance wake-up mechanism: can be woken up by frequent messages, important messages, or urgent keywords",
-          "Light sleep has higher wake-up probability, deep sleep has lower wake-up probability",
-          "Fatigue gradually recovers during sleep (0.5-1 per minute)",
-          "Health gradually recovers during sleep (0.1-0.2 per minute)",
-          "Configurable sleep duration limits (minimum 4 hours, maximum 10 hours)",
-          "Configurable auto-reply message during sleep",
-          "Supports manual wake-up functionality",
-          "Added sleep_reply_judgment AI prompt for judging whether to reply during sleep"
         ],
         "1.5.0": [
           "Added SetRelationshipTool for LLM to set user relationship type",
@@ -6014,6 +6030,61 @@
           "通过配置文件控制连接参数与安全上限"
         ]
       }
+    }
+  },
+  {
+    "id": "sansenjian.quick_repeat",
+    "manifest": {
+      "manifest_version": 1,
+      "name": "quick_repeat",
+      "display_name": "智能复读插件",
+      "version": "1.1.0",
+      "description": "MaiBot 智能复读插件，自动检测连续重复消息并复读，支持冷却机制、防刷屏保护和防模仿功能。",
+      "author": {
+        "name": "sansenjian",
+        "url": "https://github.com/sansenjian/quick-repeat"
+      },
+      "license": "MIT",
+      "host_application": {
+        "min_version": "0.10.1"
+      },
+      "entry": "plugin.py",
+      "homepage_url": "https://github.com/sansenjian/quick-repeat",
+      "repository_url": "https://github.com/sansenjian/quick-repeat",
+      "keywords": [
+        "repeat",
+        "复读",
+        "复读机",
+        "QQ",
+        "群聊",
+        "插件"
+      ],
+      "categories": [
+        "Fun",
+        "Chat"
+      ],
+      "default_locale": "zh-CN",
+      "plugin_info": {
+        "is_built_in": false,
+        "plugin_type": "chat",
+        "components": [
+          {
+            "type": "handler",
+            "name": "RepeatEventHandler",
+            "description": "复读事件处理器，检测并复读重复消息"
+          }
+        ],
+        "features": [
+          "智能复读检测",
+          "可配置重复消息数量",
+          "可选的单用户检测",
+          "冷却机制",
+          "防刷屏保护",
+          "防模仿功能",
+          "开箱即用"
+        ]
+      },
+      "id": "sansenjian.quick_repeat"
     }
   }
 ]
